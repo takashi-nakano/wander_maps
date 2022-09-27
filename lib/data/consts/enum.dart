@@ -1,0 +1,2 @@
+enum MarkerIdEnum { myMaker, targetMaker }
+
