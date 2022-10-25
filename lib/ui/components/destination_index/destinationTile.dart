@@ -20,25 +20,31 @@ class DestinationTile extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Text(destination.destinationName),
-              )),
-              IconButton(
-                  onPressed: () => vm.pushMap(context, index),
-                  icon: const Icon(Icons.location_on)),
-              IconButton(
-                onPressed: () => vm.pushCompass(context, index),
-                icon: const Icon(Icons.outbond_outlined),
-              ),
+        child: InkWell(
+          onLongPress: () {
+            print("delete");
+            vm.deleteDestination(index);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(destination.destinationName),
+                )),
+                IconButton(
+                    onPressed: () => vm.pushMap(context, index),
+                    icon: const Icon(Icons.location_on)),
+                IconButton(
+                  onPressed: () => vm.pushCompass(context, index),
+                  icon: const Icon(Icons.outbond_outlined),
+                ),
 //                const Icon(Icons.)
-            ],
+              ],
+            ),
           ),
         ));
   }

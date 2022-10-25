@@ -30,7 +30,7 @@ class FormSection extends StatelessWidget {
               IconButton(
                   icon: const Icon(Icons.add_location_alt,
                       color: Colors.blue, size: 32),
-                  onPressed: () => print("register") // vm.pushCompass(context),
+                  onPressed: () => vm.addDestination(), // vm.pushCompass(context),
                   ),
               IconButton(
                 icon: const Icon(Icons.arrow_circle_up_sharp,

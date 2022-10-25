@@ -1,34 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wander_maps/data/consts/enum.dart';
 import 'package:wander_maps/data/models/destination.dart';
+import 'package:wander_maps/data/repositories/destination_repository.dart';
 import 'package:wander_maps/ui/viewmodels/compass_viewmodel.dart';
 import 'package:wander_maps/ui/viewmodels/main_map_viewmodel.dart';
 import 'package:wander_maps/ui/views/compass_screen.dart';
 import 'package:wander_maps/ui/views/main_map_screen.dart';
 
 class DestinationIndexViewModel with ChangeNotifier {
-  final List<Destination> _destinations = [
-    Destination(
-        destinationName: "中目黒",
-        latitude: 35.64521886511285,
-        longitude: 139.69915038298086,
-        createDateTime: DateTime.now()),
-    Destination(
-        destinationName: "八丁堀",
-        latitude: 35.675409386302164,
-        longitude: 139.77705955395265,
-        createDateTime: DateTime.now()),
-    Destination(
-        destinationName: "羽田空港第一ターミナル駅",
-        latitude: 35.54918913047661,
-        longitude: 139.7847184834618,
-        createDateTime: DateTime.now()),
-    Destination(
-        destinationName: "道の駅みかも",
-        latitude: 36.296735866868545,
-        longitude: 139.62515591380242,
-        createDateTime: DateTime.now()),
-  ];
+
+  DestinationIndexViewModel({repository}) : _repository = repository;
+
+  final DestinationRepository _repository;
+
+  List<Destination> _destinations = [];
+
+  LoadStatus _loadStatus = LoadStatus.DONE;
+
+  LoadStatus get loadStatus => _loadStatus;
 
   List<Destination> get destinations => _destinations;
 
@@ -38,9 +28,9 @@ class DestinationIndexViewModel with ChangeNotifier {
     Navigator.push(context, CompassScreen.route());
   }
 
-  void deleteDestination(int index) {
-    _destinations.remove(index);
-    notifyListeners();
+  Future<void> deleteDestination(int index) async {
+    await _repository.delete(index);
+    await getDestinationList();
   }
 
   void pushMap(BuildContext context, int index) {
@@ -48,5 +38,15 @@ class DestinationIndexViewModel with ChangeNotifier {
 
     vm.setDestination(_destinations[index]);
     Navigator.push(context, MainMapScreen.route());
+  }
+
+  Future getDestinationList() async {
+    _loadStatus = LoadStatus.LOADING;
+    notifyListeners();
+    await _repository.getDestination();
+    _destinations = _repository.destination;
+    _loadStatus = _repository.loadStatus;
+    notifyListeners();
+    print(_repository);
   }
 }
