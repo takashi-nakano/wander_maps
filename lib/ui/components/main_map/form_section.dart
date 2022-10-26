@@ -14,9 +14,11 @@ class FormSection extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             child: TextFormField(
-              initialValue: (vm.destination.destinationName == "")
-                  ? '${vm.destination.latitude.toString()}, ${vm.destination.longitude.toString()}'
-                  : vm.destination.destinationName,
+              controller: vm.textEditingController,
+
+              // initialValue: (vm.destination.destinationName == "")
+              //     ? '${vm.destination.latitude.toString()}, ${vm.destination.longitude.toString()}'
+              //     : vm.destination.destinationName,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.location_searching),
               ),
@@ -28,10 +30,11 @@ class FormSection extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                  icon: const Icon(Icons.add_location_alt,
-                      color: Colors.blue, size: 32),
-                  onPressed: () => vm.addDestination(), // vm.pushCompass(context),
-                  ),
+                icon: const Icon(Icons.add_location_alt,
+                    color: Colors.blue, size: 32),
+                onPressed: () =>
+                    vm.addDestination(), // vm.pushCompass(context),
+              ),
               IconButton(
                 icon: const Icon(Icons.arrow_circle_up_sharp,
                     color: Colors.blue, size: 32),

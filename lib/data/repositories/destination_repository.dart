@@ -12,7 +12,7 @@ class DestinationRepository extends ChangeNotifier {
 
   List<Destination> _destinations = [];
 
-  List<Destination> get destination => _destinations;
+  List<Destination> get destinations => _destinations;
 
   LoadStatus _loadStatus = LoadStatus.DONE;
 
@@ -33,27 +33,11 @@ class DestinationRepository extends ChangeNotifier {
         longitude: destination.longitude,
         createDate: DateTime.now());
     await _dao.addDestination(record);
-
-    notifyListeners();
-  }
-
-  Future<void> insert(List<Destination> destinations) async {
-    List<DestinationRecord> records = [
-      DestinationRecord(
-          longitude: 36.0,
-          latitude: 139.0,
-          id: 1,
-          createDate: DateTime.now(),
-          destinationName: "test")
-    ];
-
-    await _dao.insert(records);
     await getDestination();
     notifyListeners();
   }
 
-  Future<void> delete(int i) async{
-    await _dao.deleteRecord(i);
+  Future<void> delete(int id) async {
+    await _dao.deleteRecord(id);
   }
-
 }

@@ -28,8 +28,8 @@ class DestinationIndexViewModel with ChangeNotifier {
     Navigator.push(context, CompassScreen.route());
   }
 
-  Future<void> deleteDestination(int index) async {
-    await _repository.delete(index);
+  Future<void> deleteDestination(int id) async {
+    await _repository.delete(id);
     await getDestinationList();
   }
 
@@ -44,9 +44,15 @@ class DestinationIndexViewModel with ChangeNotifier {
     _loadStatus = LoadStatus.LOADING;
     notifyListeners();
     await _repository.getDestination();
-    _destinations = _repository.destination;
+    _destinations = _repository.destinations;
     _loadStatus = _repository.loadStatus;
     notifyListeners();
     print(_repository);
+  }
+
+  onRepositoryUpdates(DestinationRepository repository) {
+    _destinations = repository.destinations;
+    _loadStatus= repository.loadStatus;
+    notifyListeners();
   }
 }

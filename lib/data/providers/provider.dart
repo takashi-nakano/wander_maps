@@ -19,8 +19,6 @@ List<SingleChildWidget> independentModels = [
     create: (_) => MyDatabase(),
     dispose: (_, db) => db.close(),
   ),
-  // Provider<DestinationDao>(
-  //     create: (context) => DestinationDao(context.read<MyDatabase>())),
 ];
 
 List<SingleChildWidget> dependentModels = [
@@ -29,22 +27,9 @@ List<SingleChildWidget> dependentModels = [
   ChangeNotifierProvider<DestinationRepository>(
       create: (context) =>
           DestinationRepository(dao: context.read<DestinationDao>())),
-  // ProxyProvider<DestinationDao, DestinationRepository>(
-  //     update: (_, dao, repository) => DestinationRepository(dao: dao)),
-  // Provider<DestinationRepository>(
-  //   create: (context) =>
-  //       DestinationRepository(dao: context.read<DestinationDao>()),
-  // )
 ];
 
 List<SingleChildWidget> viewModels = [
-// ChangeNotifierProxyProvider<DestinationRepository, DestinationIndexViewModel>(
-//   create: (context) => DestinationIndexViewModel(
-//       repository: context.read<DestinationRepository>()),
-//   update: (context, repository, viewModel) =>
-//       viewModel!..onRepositoryUpdates(repository),
-// ),
-
   ChangeNotifierProvider(
     create: (_) => HomeViewModel(),
   ),
@@ -54,8 +39,11 @@ List<SingleChildWidget> viewModels = [
   ChangeNotifierProvider(
       create: (context) =>
           MainMapViewModel(repository: context.read<DestinationRepository>())),
-
-  ChangeNotifierProvider(
-      create: (context) => DestinationIndexViewModel(
-          repository: context.read<DestinationRepository>())),
+  ChangeNotifierProxyProvider<DestinationRepository, DestinationIndexViewModel>(
+    create: (context) => DestinationIndexViewModel(
+      repository: context.read<DestinationRepository>(),
+    ),
+    update: (context, repository, viewModel) =>
+        viewModel!..onRepositoryUpdates(repository),
+  ),
 ];

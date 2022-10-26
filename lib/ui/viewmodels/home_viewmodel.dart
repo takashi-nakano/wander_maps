@@ -69,6 +69,7 @@ class HomeViewModel with ChangeNotifier {
         desiredAccuracy: LocationAccuracy.high);
     LatLng latLng = LatLng(p.latitude, p.longitude);
     Destination dest = Destination(
+        id: -1,
         destinationName: "",
         latitude: latLng.latitude,
         longitude: latLng.longitude,
@@ -98,6 +99,7 @@ class HomeViewModel with ChangeNotifier {
 
     LatLng latLng = LatLng(lat, lng);
     Destination dest = Destination(
+        id: -1,
         destinationName: "",
         latitude: latLng.latitude,
         longitude: latLng.longitude,
@@ -130,6 +132,7 @@ class HomeViewModel with ChangeNotifier {
       String name = res['result']['name'];
 
       Destination destination = Destination(
+          id: -1,
           destinationName: name,
           latitude: lat,
           longitude: lng,

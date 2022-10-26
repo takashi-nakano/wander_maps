@@ -6,6 +6,7 @@ extension ConvertToDestination on List<DestinationRecord> {
     List<Destination> destinations = [];
     destinationRecords.forEach((destinationRecord) {
       destinations.add(Destination(
+        id: destinationRecord.id,
         destinationName: destinationRecord.destinationName,
         longitude: destinationRecord.longitude,
         latitude: destinationRecord.latitude,
