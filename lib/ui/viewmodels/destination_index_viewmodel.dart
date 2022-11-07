@@ -40,17 +40,16 @@ class DestinationIndexViewModel with ChangeNotifier {
     Navigator.push(context, MainMapScreen.route());
   }
 
-  Future getDestinationList() async {
+  Future<void> getDestinationList() async {
     _loadStatus = LoadStatus.LOADING;
     notifyListeners();
     await _repository.getDestination();
     _destinations = _repository.destinations;
     _loadStatus = _repository.loadStatus;
     notifyListeners();
-    print(_repository);
   }
 
-  onRepositoryUpdates(DestinationRepository repository) {
+  void onRepositoryUpdates(DestinationRepository repository) {
     _destinations = repository.destinations;
     _loadStatus= repository.loadStatus;
     notifyListeners();

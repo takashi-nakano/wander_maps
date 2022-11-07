@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wander_maps/data/consts/format.dart';
 import 'package:wander_maps/data/models/destination.dart';
 import 'package:wander_maps/ui/viewmodels/destination_index_viewmodel.dart';
 
@@ -27,16 +28,18 @@ class DestinationTile extends StatelessWidget {
           builder: (BuildContext context) => AlertDialog(
             title: const Text('削除しますか？'),
             actions: <Widget>[
-              TextButton(
+              ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: const Text('戻る'),
+                style: ElevatedButton.styleFrom(primary: Colors.grey),
               ),
-              TextButton(
+              ElevatedButton(
                 onPressed: () {
                   vm.deleteDestination(destination.id);
                   Navigator.pop(context);
                 },
-                child: const Text('OK'),
+                child: const Text('削除する'),
+                style: ElevatedButton.styleFrom(primary: Colors.lightBlue),
               ),
             ],
           ),
@@ -46,6 +49,11 @@ class DestinationTile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Column(
+                children: [
+                  Text(Format.dateSlash.format(destination.createDateTime)),
+                  Text(Format.time24.format(destination.createDateTime)),
+              ],),
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.only(left: 16.0),

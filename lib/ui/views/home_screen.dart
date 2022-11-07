@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 CustomButton(
                     onPressed: () => vm.pushQuickSet(context),
-                    text: "quick set"),
+                    text: "現在地表示"),
                 CustomButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -33,9 +33,9 @@ class HomeScreen extends StatelessWidget {
                         },
                       );
                     },
-                    text: "search"),
+                    text: "地点検索"),
                 CustomButton(
-                    onPressed: () => vm.pushIndex(context), text: "index"),
+                    onPressed: () => vm.pushIndex(context), text: "設定地点一覧"),
               ],
             ),
           ),

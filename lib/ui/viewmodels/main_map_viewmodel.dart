@@ -24,13 +24,15 @@ class MainMapViewModel with ChangeNotifier {
 
   TextEditingController get textEditingController => _textEditingController;
 
+  LoadStatus _loadStatus = LoadStatus.DONE;
+
+  LoadStatus get loadStatus => _loadStatus;
+
   Set<Marker> _markers = {};
 
   Set<Marker> get markers => _markers;
 
   Destination get destination => _destination;
-
-  GoogleMapController get mapController => _mapController;
 
   late CameraPosition _cameraPosition;
 
@@ -43,9 +45,7 @@ class MainMapViewModel with ChangeNotifier {
     _cameraPosition = CameraPosition(
         zoom: Location.detailZoomLevel,
         target: LatLng(dest.latitude, dest.longitude));
-    _textEditingController.text = (_destination.destinationName == "")
-        ? '${_destination.latitude.toString()}, ${_destination.longitude.toString()}'
-        : _destination.destinationName;
+    _textEditingController.text = dest.destinationName;
   }
 
   void setMapController(GoogleMapController controller) {
@@ -54,31 +54,30 @@ class MainMapViewModel with ChangeNotifier {
 
   void addMakers(LatLng latLng) {
     Marker marker = Marker(
-        markerId: MarkerId(MarkerIdEnum.targetMaker.toString()),
-        position: latLng,
-        onTap: () {
-          Clipboard.setData(ClipboardData(
-              text:
-                  '${latLng.latitude.toString()}, ${latLng.longitude.toString()}'));
-//          final fToast = FToast();
-//      fToast.init(context);
-//           fToast.showToast(
-//             child: const CustomToast(
-//               msg: "マーカーの座標をコピーしました。",
-//               color: Colors.blueAccent,
-//             ),
-//             gravity: ToastGravity.BOTTOM,
-//           );
-        });
+      markerId: MarkerId(MarkerIdEnum.targetMaker.toString()),
+      position: latLng,
+    );
 
     _markers.add(marker);
     _destination.latitude = latLng.latitude;
     _destination.longitude = latLng.longitude;
-    _textEditingController.text = (_destination.destinationName == "")
-        ? '${_destination.latitude.toString()}, ${_destination.longitude.toString()}'
-        : _destination.destinationName;
 
     notifyListeners();
+  }
+
+  void copyLatLng(BuildContext context) {
+    Clipboard.setData(ClipboardData(
+        text:
+            '${_destination.latitude.toString()}, ${_destination.longitude.toString()}'));
+    final fToast = FToast();
+    fToast.init(context);
+    fToast.showToast(
+      child: const CustomToast(
+        msg: "マーカーの座標をコピーしました。",
+        color: Colors.blue,
+      ),
+      gravity: ToastGravity.BOTTOM,
+    );
   }
 
   void tapMap(LatLng latLng) {
@@ -88,14 +87,9 @@ class MainMapViewModel with ChangeNotifier {
 
   void pushCompass(BuildContext context) {
     final vm = context.read<CompassViewModel>();
-    final name = _destination.id > 0
-        ? _destination.destinationName
-        : _markers.first.position.latitude.toStringAsFixed(5) +
-            "," +
-            _markers.first.position.longitude.toStringAsFixed(5);
     final Destination dest = Destination(
         id: _destination.id,
-        destinationName: name,
+        destinationName: _destination.destinationName,
         latitude: _markers.first.position.latitude,
         longitude: _markers.first.position.longitude,
         createDateTime: vm.destination.createDateTime);
@@ -107,5 +101,6 @@ class MainMapViewModel with ChangeNotifier {
   void addDestination() {
     _destination.destinationName = _textEditingController.text;
     _repository.addDestination(_destination);
+    notifyListeners();
   }
 }

@@ -39,7 +39,6 @@ class HomeViewModel with ChangeNotifier {
     _mode = mode;
     if (mode == "GPS") {
       String? errMsg = Validator.latLngValidator(_searchText);
-      print(errMsg);
       if (errMsg != null) {
         _textEditingController.clear();
         _predictions = [];
@@ -70,7 +69,7 @@ class HomeViewModel with ChangeNotifier {
     LatLng latLng = LatLng(p.latitude, p.longitude);
     Destination dest = Destination(
         id: -1,
-        destinationName: "",
+        destinationName: "現在地",
         latitude: latLng.latitude,
         longitude: latLng.longitude,
         createDateTime: DateTime.now());
@@ -87,10 +86,11 @@ class HomeViewModel with ChangeNotifier {
       fToast.showToast(
         child: CustomToast(
           msg: errorMessage,
-          color: Colors.blueAccent,
+          color: Colors.blue,
         ),
         gravity: ToastGravity.BOTTOM,
       );
+      return;
     }
 
     List<String> datas = searchText.split(",");
@@ -100,7 +100,7 @@ class HomeViewModel with ChangeNotifier {
     LatLng latLng = LatLng(lat, lng);
     Destination dest = Destination(
         id: -1,
-        destinationName: "",
+        destinationName: '${lat.toString()}, ${lng.toString()}',
         latitude: latLng.latitude,
         longitude: latLng.longitude,
         createDateTime: DateTime.now());

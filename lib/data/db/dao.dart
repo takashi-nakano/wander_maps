@@ -17,7 +17,7 @@ class DestinationDao extends DatabaseAccessor<MyDatabase>
   Future<List<DestinationRecord>> get selectAll =>
       select(destinationRecords).get();
 
-  Future addDestination(DestinationRecord record) async {
+  Future<void> addDestination(DestinationRecord record) async {
     await db.into(db.destinationRecords).insert(
         DestinationRecordsCompanion.insert(
             destinationName: record.destinationName,
@@ -26,8 +26,8 @@ class DestinationDao extends DatabaseAccessor<MyDatabase>
             createDate: DateTime.now()));
   }
 
-  Future deleteRecord(int id) async {
-    await (db.delete(db.destinationRecords)..where((tbl) => tbl.id.equals(id)))
+  Future<int> deleteRecord(int id) async {
+    return await (db.delete(db.destinationRecords)..where((tbl) => tbl.id.equals(id)))
         .go();
   }
 }

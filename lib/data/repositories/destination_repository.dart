@@ -34,6 +34,7 @@ class DestinationRepository extends ChangeNotifier {
         createDate: DateTime.now());
     await _dao.addDestination(record);
     await getDestination();
+
     notifyListeners();
   }
 

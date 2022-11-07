@@ -14,7 +14,12 @@ class CompassViewModel with ChangeNotifier {
   double _compassAngle = 0.0;
   double _distance = 0.0;
 
-  late Destination _destination;
+  late Destination _destination = Destination(
+      id: -1,
+      destinationName: "",
+      latitude: 0,
+      longitude: 0,
+      createDateTime: DateTime.now());
 
   Destination get destination => _destination;
 

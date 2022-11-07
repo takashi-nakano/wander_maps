@@ -22,7 +22,7 @@ class CompassScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("until destination"),
+        title: const Text("目的地コンパス"),
         centerTitle: true,
       ),
       body: Column(
