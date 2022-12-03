@@ -120,10 +120,12 @@ class HomeViewModel with ChangeNotifier {
     String APIKEY = '&key=${ApiKey.GOOGLE_MAP_API_KEY}';
 
     String requestUrl = URL + _predictions[index].placeId.toString() + APIKEY;
+    print(requestUrl);
     http.Response? response;
     response = await http.get(Uri.parse(requestUrl));
 
     if (response.statusCode == 200) {
+      print(response.toString());
       final responseBody = response.body;
       final res = jsonDecode(responseBody);
       var location = res['result']['geometry']['location'];

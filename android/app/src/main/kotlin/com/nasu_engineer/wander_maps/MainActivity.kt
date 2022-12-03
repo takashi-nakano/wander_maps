@@ -1,4 +1,4 @@
-package com.example.wander_maps
+package com.nasu_engineer.wander_maps
 
 import io.flutter.embedding.android.FlutterActivity
 
